@@ -25,13 +25,27 @@
               <label for="nl-email" class="sr-only">Email address</label>
               <input id="nl-email" type="email" name="email" placeholder="Email address" required class="w-full px-4 py-3 rounded-xl bg-brand-bg border border-brand-border text-brand-text placeholder-brand-muted text-sm focus:outline-none focus:border-brand-accent/50 focus:ring-2 focus:ring-brand-accent/20 transition-all" />
             </div>
-            <button type="submit" class="w-full btn-primary justify-center">Subscribe</button>
-            <p class="text-brand-muted text-xs text-center">By subscribing you accept the privacy policy.</p>
+            <button type="submit" class="w-full btn-primary justify-center">Request invite</button>
+            <p class="text-brand-muted text-xs text-center">No backend, no spam — this opens your mail app with a prefilled note.</p>
           </form>
           <div id="newsletter-success" class="hidden text-center py-8">
             <div class="text-brand-accent text-3xl mb-3">✓</div>
-            <p class="text-brand-text font-semibold">Subscribed! Check your inbox.</p>
+            <p class="text-brand-text font-semibold">Mail app opened — hit send and you're in.</p>
           </div>
+
+          <script>
+            const form = document.getElementById('newsletter-form') as HTMLFormElement | null;
+            form?.addEventListener('submit', (e) => {
+              e.preventDefault();
+              const name = (document.getElementById('nl-name') as HTMLInputElement)?.value ?? '';
+              const email = (document.getElementById('nl-email') as HTMLInputElement)?.value ?? '';
+              const subject = encodeURIComponent(`Newsletter invite — ${name}`);
+              const body = encodeURIComponent(`Hi Mohit,\n\nPlease add me to your healthcare-AI notes.\n\nName: ${name}\nEmail: ${email}\n`);
+              window.location.href = `mailto:mohitjat202@gmail.com?subject=${subject}&body=${body}`;
+              document.getElementById('newsletter-success')?.classList.remove('hidden');
+              form.classList.add('hidden');
+            });
+          </script>
         </div>
       </div>
     </div>

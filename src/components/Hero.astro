@@ -1,91 +1,65 @@
 ---
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const slices = Array.from({ length: 10 });
+const contour = (seed: number) => `
+  <ellipse cx="100" cy="100" rx="${58 - seed * 3}" ry="${44 - seed * 2}" fill="none" stroke="rgba(69,227,255,0.5)" stroke-width="1"/>
+  <ellipse cx="100" cy="100" rx="${38 - seed * 2}" ry="${30 - seed}" fill="none" stroke="rgba(69,227,255,0.35)" stroke-width="1"/>
+  <ellipse cx="100" cy="100" rx="${20 - seed}" ry="${16 - seed}" fill="rgba(69,227,255,0.08)" stroke="rgba(255,176,32,0.65)" stroke-width="1.2"/>
+  <line x1="100" y1="14" x2="100" y2="186" stroke="rgba(69,227,255,0.22)" stroke-width="1"/>
+  <line x1="14" y1="100" x2="186" y2="100" stroke="rgba(69,227,255,0.22)" stroke-width="1"/>
+  <circle cx="100" cy="100" r="3" fill="#FFB020"/>
+`;
 ---
-<section class="relative min-h-[90vh] lg:min-h-screen flex items-center pt-20 overflow-hidden">
-  <div class="absolute inset-0 pointer-events-none">
-    <div class="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-brand-accent/5 rounded-full blur-[120px]"></div>
-    <div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-brand-violet/5 rounded-full blur-[100px]"></div>
-  </div>
+<section class="relative overflow-hidden">
+  <div class="grid-floor" aria-hidden="true"></div>
 
-  <div class="container relative z-10">
-    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-      <div class="space-y-8">
-        <div class="flex items-center gap-3">
-          <div class="w-2 h-2 rounded-full bg-brand-accent animate-pulse"></div>
-          <span class="text-brand-muted text-sm font-medium uppercase tracking-widest">Available for opportunities</span>
-        </div>
+  <div class="container relative z-10 grid lg:grid-cols-[1.02fr_0.98fr] gap-14 items-center pt-28 pb-16 lg:pt-36 lg:pb-24">
+    <div>
+      <p class="eyebrow text-brand-accent mb-6">
+        <span class="inline-block w-2 h-2 rounded-full bg-brand-accent" style="box-shadow: 0 0 12px rgba(255,176,32,0.9)"></span>
+        Available for opportunities
+      </p>
 
-        <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-900 tracking-tighter leading-[1.05] text-balance">
-          Building tools for<br/>
-          <span class="bg-gradient-to-r from-brand-accent via-brand-violet to-brand-green bg-clip-text text-transparent">healthcare</span>,<br/>
-          offline-first.
-        </h1>
+      <h1 class="font-display font-bold tracking-tight leading-[1.02] text-balance text-5xl sm:text-6xl xl:text-7xl">
+        Building tools for<br />
+        <span class="bg-gradient-to-r from-brand-accent to-brand-violet bg-clip-text text-transparent">healthcare</span>,<br />
+        offline-first.
+      </h1>
 
-        <p class="text-brand-text-secondary text-lg lg:text-xl max-w-lg leading-relaxed">
-          Software Developer & AI Researcher. Healthcare IT. Medical Imaging AI. PACS/DICOM workflows.
-        </p>
+      <p class="text-brand-text-secondary text-lg lg:text-xl max-w-lg leading-relaxed mt-6">
+        Software Developer & AI Researcher. Healthcare IT. Medical Imaging AI. PACS/DICOM workflows.
+      </p>
 
-        <div class="flex flex-wrap gap-4">
-          <a href={`${base}#projects`} class="btn-primary">
-            View projects
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-          </a>
-          <a href={`${base}contact`} class="btn-ghost">Get in touch</a>
-        </div>
-
-        <div class="flex flex-wrap gap-4 pt-4">
-          <div class="floating-badge">
-            <span class="dot"></span>
-            <span class="text-brand-text-secondary">15+ projects</span>
-          </div>
-          <div class="floating-badge">
-            <span class="dot"></span>
-            <span class="text-brand-text-secondary">Healthcare AI</span>
-          </div>
-          <div class="floating-badge">
-            <span class="dot"></span>
-            <span class="text-brand-text-secondary">Offline-first</span>
-          </div>
-        </div>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href={`${base}#projects`} class="btn-primary">
+          View projects
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+        </a>
+        <a href={`${base}contact`} class="btn-ghost">Get in touch</a>
       </div>
 
-      <div class="relative hidden lg:block">
-        <div class="relative">
-          <div class="absolute inset-0 bg-gradient-to-br from-brand-accent/20 to-brand-violet/20 rounded-3xl blur-2xl scale-95"></div>
-          <div class="relative bg-brand-card border border-brand-border rounded-3xl p-8 shadow-[0_40px_80px_rgba(0,0,0,0.4)]">
-            <div class="flex items-center gap-3 mb-6">
-              <div class="w-3 h-3 rounded-full bg-brand-red"></div>
-              <div class="w-3 h-3 rounded-full bg-brand-accent"></div>
-              <div class="w-3 h-3 rounded-full bg-brand-green"></div>
-              <span class="ml-2 text-brand-muted text-xs font-mono">radiology-observatory</span>
-            </div>
-            <div class="space-y-4">
-              <div class="h-4 w-3/4 bg-brand-border rounded"></div>
-              <div class="h-4 w-1/2 bg-brand-border rounded"></div>
-              <div class="grid grid-cols-2 gap-4 mt-6">
-                <div class="bg-brand-bg rounded-xl p-4 border border-brand-border">
-                  <div class="text-brand-accent text-2xl font-bold">12k</div>
-                  <div class="text-brand-muted text-xs mt-1">Studies indexed</div>
-                </div>
-                <div class="bg-brand-bg rounded-xl p-4 border border-brand-border">
-                  <div class="text-brand-violet text-2xl font-bold">99.7%</div>
-                  <div class="text-brand-muted text-xs mt-1">Accuracy</div>
-                </div>
-              </div>
-              <div class="bg-brand-bg rounded-xl p-4 border border-brand-border mt-4">
-                <div class="text-brand-green text-sm font-mono">→ DICOM Parser v3.2</div>
-                <div class="text-brand-muted text-xs mt-1">zero dependencies</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="absolute -top-6 -right-6 w-32 h-32 bg-brand-accent/10 rounded-full blur-xl"></div>
-      </div>
+      <dl class="flex flex-wrap gap-x-8 gap-y-3 mt-10 font-mono text-xs tracking-[0.18em] text-brand-muted uppercase">
+        <div><dt class="sr-only">Projects</dt><dd><span class="text-brand-text font-semibold">15+</span> projects</dd></div>
+        <div><dt class="sr-only">Domain</dt><dd>Healthcare AI</dd></div>
+        <div><dt class="sr-only">Approach</dt><dd>Offline-first</dd></div>
+        <div><dt class="sr-only">Tracking</dt><dd>Zero tracking</dd></div>
+      </dl>
     </div>
-  </div>
 
-  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 animate-bounce">
-    <span class="text-brand-muted text-xs uppercase tracking-widest">Scroll</span>
-    <svg class="w-5 h-5 text-brand-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
+    <div>
+      <div class="scan-stage" id="scan-stage" aria-hidden="true">
+        <div class="scan-stack" id="scan-stack">
+          {slices.map((_, i) => (
+            <div class="scan-slice" style={`--i:${i}`}>
+              <svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid meet" set:html={contour(i % 4)} />
+              {i % 3 === 0 && <span class="slice-tag">SL-{String(i + 1).padStart(2, '0')}</span>}
+            </div>
+          ))}
+          <div class="scan-plane"></div>
+        </div>
+        <div class="scan-shadow"></div>
+      </div>
+      <p class="readout"><span class="pulse"></span> Axial stack · 10 slices · sweep active</p>
+    </div>
   </div>
 </section>

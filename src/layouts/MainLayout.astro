@@ -95,5 +95,54 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
         cmdkOverlay.classList.remove('flex');
       }
     });
+
+    // 3D tilt for linked cards + scan-volume parallax (skipped for touch / reduced motion)
+    const finePointer = window.matchMedia('(pointer: fine)').matches;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (finePointer && !reducedMotion) {
+      document.querySelectorAll('a.card').forEach((card) => {
+        const el = card as HTMLElement;
+        el.addEventListener('mousemove', (e) => {
+          const r = el.getBoundingClientRect();
+          const px = (e.clientX - r.left) / r.width - 0.5;
+          const py = (e.clientY - r.top) / r.height - 0.5;
+          el.style.transform = `perspective(900px) rotateX(${(-py * 7).toFixed(2)}deg) rotateY(${(px * 9).toFixed(2)}deg) translateY(-3px)`;
+          el.style.setProperty('--mx', `${((px + 0.5) * 100).toFixed(1)}%`);
+          el.style.setProperty('--my', `${((py + 0.5) * 100).toFixed(1)}%`);
+        });
+        el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+      });
+
+      const stage = document.getElementById('scan-stage');
+      const stack = document.getElementById('scan-stack');
+      if (stage && stack) {
+        let tx = 0, ty = 0, cx = 0, cy = 0, raf = 0;
+        const loop = () => {
+          cx += (tx - cx) * 0.08; cy += (ty - cy) * 0.08;
+          stack.style.transform = `rotateX(${(56 + cy).toFixed(2)}deg) rotateZ(${(-7 + cx).toFixed(2)}deg)`;
+          if (Math.abs(tx - cx) > 0.01 || Math.abs(ty - cy) > 0.01) { raf = requestAnimationFrame(loop); }
+          else { raf = 0; }
+        };
+        const kick = () => { if (!raf) raf = requestAnimationFrame(loop); };
+        stage.addEventListener('mousemove', (e) => {
+          const r = stage.getBoundingClientRect();
+          tx = ((e.clientX - r.left) / r.width - 0.5) * 14;
+          ty = -((e.clientY - r.top) / r.height - 0.5) * 12;
+          kick();
+        });
+        stage.addEventListener('mouseleave', () => { tx = 0; ty = 0; kick(); });
+      }
+    }
+
+    // Scroll reveal (JS-gated so content stays visible without JS)
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.card, .section-title').forEach((el) => {
+      el.classList.add('reveal');
+      io.observe(el);
+    });
   </script>
 </BaseLayout>
