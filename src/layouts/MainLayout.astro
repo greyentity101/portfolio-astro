@@ -9,6 +9,7 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 ---
 <BaseLayout title={title} description={description}>
   <Navbar />
@@ -19,10 +20,10 @@ const { title, description } = Astro.props;
 
   <div id="mobile-menu" class="fixed inset-0 z-[60] bg-brand-bg/95 backdrop-blur-xl hidden lg:hidden" aria-hidden="true">
     <div class="container flex flex-col h-full py-20 gap-6">
-      <a href="/projects" class="text-2xl font-bold text-brand-text hover:text-brand-accent transition-colors mobile-nav-link">Projects</a>
-      <a href="/writing" class="text-2xl font-bold text-brand-text hover:text-brand-accent transition-colors mobile-nav-link">Writing</a>
-      <a href="/talks" class="text-2xl font-bold text-brand-text hover:text-brand-accent transition-colors mobile-nav-link">Talks</a>
-      <a href="/about" class="text-2xl font-bold text-brand-text hover:text-brand-accent transition-colors mobile-nav-link">About</a>
+      <a href={`${base}projects`} class="text-2xl font-bold text-brand-text hover:text-brand-accent transition-colors mobile-nav-link">Projects</a>
+      <a href={`${base}writing`} class="text-2xl font-bold text-brand-text hover:text-brand-accent transition-colors mobile-nav-link">Writing</a>
+      <a href={`${base}talks`} class="text-2xl font-bold text-brand-text hover:text-brand-accent transition-colors mobile-nav-link">Talks</a>
+      <a href={`${base}about`} class="text-2xl font-bold text-brand-text hover:text-brand-accent transition-colors mobile-nav-link">About</a>
       <a href="mailto:mohit.kumar@example.com" class="btn-primary inline-flex w-fit mt-4">Get in touch</a>
     </div>
   </div>
@@ -38,10 +39,10 @@ const { title, description } = Astro.props;
         <input id="cmdk-input" type="text" placeholder="Jump to..." class="w-full bg-transparent border-none outline-none text-brand-text text-lg font-medium" autocomplete="off" />
       </div>
       <div id="cmdk-results" class="space-y-2">
-        <a href="/projects" class="cmdk-item block px-4 py-3 rounded-xl text-brand-text-secondary hover:bg-brand-border hover:text-brand-accent transition-colors">Projects</a>
-        <a href="/writing" class="cmdk-item block px-4 py-3 rounded-xl text-brand-text-secondary hover:bg-brand-border hover:text-brand-accent transition-colors">Writing</a>
-        <a href="/talks" class="cmdk-item block px-4 py-3 rounded-xl text-brand-text-secondary hover:bg-brand-border hover:text-brand-accent transition-colors">Talks</a>
-        <a href="/about" class="cmdk-item block px-4 py-3 rounded-xl text-brand-text-secondary hover:bg-brand-border hover:text-brand-accent transition-colors">About</a>
+        <a href={`${base}projects`} class="cmdk-item block px-4 py-3 rounded-xl text-brand-text-secondary hover:bg-brand-border hover:text-brand-accent transition-colors">Projects</a>
+        <a href={`${base}writing`} class="cmdk-item block px-4 py-3 rounded-xl text-brand-text-secondary hover:bg-brand-border hover:text-brand-accent transition-colors">Writing</a>
+        <a href={`${base}talks`} class="cmdk-item block px-4 py-3 rounded-xl text-brand-text-secondary hover:bg-brand-border hover:text-brand-accent transition-colors">Talks</a>
+        <a href={`${base}about`} class="cmdk-item block px-4 py-3 rounded-xl text-brand-text-secondary hover:bg-brand-border hover:text-brand-accent transition-colors">About</a>
         <a href="https://github.com/greyentity101" class="block px-4 py-3 rounded-xl text-brand-text-secondary hover:bg-brand-border hover:text-brand-accent transition-colors">GitHub</a>
       </div>
     </div>

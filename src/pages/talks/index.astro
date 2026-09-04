@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import MainLayout from '../../layouts/MainLayout.astro';
 const talks = await getCollection('talks');
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 ---
 <MainLayout title="Talks" description="Speaking and presentations by Mohit Kumar.">
   <div class="container py-12">
@@ -9,7 +10,7 @@ const talks = await getCollection('talks');
     <p class="section-subtitle mb-10">Demos and presentations.</p>
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
       {talks.map((t) => (
-        <a href={`/talks/${t.slug}`} class="card group">
+        <a href={`${base}talks/${t.slug}`} class="card group">
           <span class="tag">{t.data.venue}</span>
           <h3 class="text-lg font-bold mt-3 group-hover:text-brand-accent transition-colors">{t.data.title}</h3>
           <p class="text-brand-muted text-sm">{t.data.date}</p>

@@ -6,6 +6,13 @@ interface Props {
 }
 
 const { title, description, canonical } = Astro.props;
+
+// BASE_URL is '/portfolio-astro/' in production builds, '/' in dev.
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const basePath = base.replace(/^\//, '');
+const rawPath = Astro.url.pathname.replace(/^\//, '');
+const fullPath = rawPath.startsWith(basePath) ? rawPath : basePath + rawPath;
+const canonicalURL = canonical || new URL(fullPath, Astro.site).href;
 ---
 <html lang="en">
   <head>
@@ -23,11 +30,11 @@ const { title, description, canonical } = Astro.props;
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
-    <link rel="canonical" href={canonical || Astro.site + Astro.url.pathname} />
-    <link rel="sitemap" href="/sitemap-index.xml" />
-    <link rel="alternate" type="application/rss+xml" title="Mohit Kumar — Blog" href="/rss.xml" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="manifest" href="/manifest.json" />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="sitemap" href={`${base}sitemap-index.xml`} />
+    <link rel="alternate" type="application/rss+xml" title="Mohit Kumar — Blog" href={`${base}rss.xml`} />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <link rel="manifest" href={`${base}manifest.json`} />
   </head>
   <body class="font-sans antialiased bg-brand-bg text-brand-text">
     <slot />

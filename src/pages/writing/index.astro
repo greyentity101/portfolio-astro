@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import MainLayout from '../../layouts/MainLayout.astro';
 const posts = await getCollection('blog');
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 ---
 <MainLayout title="Writing" description="Blog and articles by Mohit Kumar.">
   <div class="container py-12">
@@ -9,7 +10,7 @@ const posts = await getCollection('blog');
     <p class="section-subtitle mb-10">Notes on healthcare AI and local-first tools.</p>
     <div class="grid md:grid-cols-2 gap-6">
       {posts.map((p) => (
-        <a href={`/writing/${p.slug}`} class="card group">
+        <a href={`${base}writing/${p.slug}`} class="card group">
           <span class="tag">{p.data.category}</span>
           <h3 class="text-xl font-bold mt-3 mb-2 group-hover:text-brand-accent transition-colors">{p.data.title}</h3>
           <p class="text-brand-text-secondary text-sm">{p.data.description}</p>

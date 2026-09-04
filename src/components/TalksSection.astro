@@ -1,6 +1,8 @@
 ---
 import type { getCollection } from 'astro:content';
 
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+
 interface Props {
   talks: Awaited<ReturnType<typeof getCollection<'talks'>>>;
 }
@@ -16,7 +18,7 @@ const { talks } = Astro.props;
         </div>
         <h2 class="section-title">Speaking & presentations</h2>
       </div>
-      <a href="/talks" class="btn-ghost text-sm">
+      <a href={`${base}talks`} class="btn-ghost text-sm">
         All talks
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
       </a>
@@ -30,7 +32,7 @@ const { talks } = Astro.props;
     ) : (
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {talks.map(talk => (
-          <a href={`/talks/${talk.slug}`} class="card group relative overflow-hidden">
+          <a href={`${base}talks/${talk.slug}`} class="card group relative overflow-hidden">
             <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand-green to-brand-accent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div class="relative">
               <span class="tag">{talk.data.venue}</span>

@@ -1,6 +1,8 @@
 ---
 import type { getCollection } from 'astro:content';
 
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+
 interface Props {
   posts: Awaited<ReturnType<typeof getCollection<'blog'>>>;
 }
@@ -16,7 +18,7 @@ const { posts } = Astro.props;
         </div>
         <h2 class="section-title">Blog & articles</h2>
       </div>
-      <a href="/writing" class="btn-ghost text-sm">
+      <a href={`${base}writing`} class="btn-ghost text-sm">
         All writing
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
       </a>
@@ -24,7 +26,7 @@ const { posts } = Astro.props;
 
     <div class="grid md:grid-cols-2 gap-6">
       {posts.map(post => (
-        <a href={`/writing/${post.slug}`} class="card group relative overflow-hidden">
+        <a href={`${base}writing/${post.slug}`} class="card group relative overflow-hidden">
           <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand-accent to-brand-violet opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
           <div class="relative">
             <div class="flex items-center gap-3 mb-4">
