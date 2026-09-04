@@ -1,0 +1,25 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../layouts/MainLayout.astro';
+import Hero from '../components/Hero.astro';
+import ProjectsSection from '../components/ProjectsSection.astro';
+import BlogSection from '../components/BlogSection.astro';
+import TalksSection from '../components/TalksSection.astro';
+import NewsletterSection from '../components/NewsletterSection.astro';
+import AboutSection from '../components/AboutSection.astro';
+
+const allProjects = await getCollection('projects');
+const allBlog = await getCollection('blog');
+const allTalks = await getCollection('talks');
+---
+<MainLayout
+  title="Mohit Kumar — Developer & AI Researcher"
+  description="Mohit Kumar — Software Developer & AI Researcher. Healthcare IT, Medical Imaging AI, PACS/DICOM workflows, Radiology Atlas, Google Apps Launcher."
+>
+  <Hero />
+  <ProjectsSection projects={allProjects.slice(0, 3)} />
+  <BlogSection posts={allBlog.slice(0, 3)} />
+  <TalksSection talks={allTalks.slice(0, 3)} />
+  <AboutSection />
+  <NewsletterSection />
+</MainLayout>

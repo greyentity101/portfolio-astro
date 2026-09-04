@@ -1,0 +1,39 @@
+<section class="py-20 lg:py-28">
+  <div class="container">
+    <div class="relative rounded-3xl overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-br from-brand-accent/10 via-brand-bg to-brand-violet/10"></div>
+      <div class="absolute top-0 right-0 w-96 h-96 bg-brand-accent/5 rounded-full blur-[100px]"></div>
+      <div class="absolute bottom-0 left-0 w-64 h-64 bg-brand-violet/5 rounded-full blur-[80px]"></div>
+
+      <div class="relative grid lg:grid-cols-2 gap-8 lg:gap-16 items-center py-12 lg:py-16">
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <div class="dot-block w-2 h-2 rounded-full bg-brand-accent"></div>
+            <span class="text-brand-accent text-sm font-semibold uppercase tracking-wider">Newsletter</span>
+          </div>
+          <h3 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight mb-4">Insights on healthcare AI</h3>
+          <p class="text-brand-text-secondary text-lg leading-relaxed">No spam — unsubscribe anytime. Thoughts on medical imaging, DICOM workflows, and building offline-first tools.</p>
+        </div>
+
+        <div class="card max-w-md">
+          <form id="newsletter-form" class="space-y-4">
+            <div>
+              <label for="nl-name" class="sr-only">First name</label>
+              <input id="nl-name" type="text" name="name" placeholder="First name" required class="w-full px-4 py-3 rounded-xl bg-brand-bg border border-brand-border text-brand-text placeholder-brand-muted text-sm focus:outline-none focus:border-brand-accent/50 focus:ring-2 focus:ring-brand-accent/20 transition-all" />
+            </div>
+            <div>
+              <label for="nl-email" class="sr-only">Email address</label>
+              <input id="nl-email" type="email" name="email" placeholder="Email address" required class="w-full px-4 py-3 rounded-xl bg-brand-bg border border-brand-border text-brand-text placeholder-brand-muted text-sm focus:outline-none focus:border-brand-accent/50 focus:ring-2 focus:ring-brand-accent/20 transition-all" />
+            </div>
+            <button type="submit" class="w-full btn-primary justify-center">Subscribe</button>
+            <p class="text-brand-muted text-xs text-center">By subscribing you accept the privacy policy.</p>
+          </form>
+          <div id="newsletter-success" class="hidden text-center py-8">
+            <div class="text-brand-accent text-3xl mb-3">✓</div>
+            <p class="text-brand-text font-semibold">Subscribed! Check your inbox.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,98 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+<BaseLayout title={title} description={description}>
+  <Navbar />
+  <main id="main-content" class="pt-16">
+    <slot />
+  </main>
+  <Footer />
+
+  <div id="mobile-menu" class="fixed inset-0 z-[60] bg-brand-bg/95 backdrop-blur-xl hidden lg:hidden" aria-hidden="true">
+    <div class="container flex flex-col h-full py-20 gap-6">
+      <a href="/projects" class="text-2xl font-bold text-brand-text hover:text-brand-accent transition-colors mobile-nav-link">Projects</a>
+      <a href="/writing" class="text-2xl font-bold text-brand-text hover:text-brand-accent transition-colors mobile-nav-link">Writing</a>
+      <a href="/talks" class="text-2xl font-bold text-brand-text hover:text-brand-accent transition-colors mobile-nav-link">Talks</a>
+      <a href="/about" class="text-2xl font-bold text-brand-text hover:text-brand-accent transition-colors mobile-nav-link">About</a>
+      <a href="mailto:mohit.kumar@example.com" class="btn-primary inline-flex w-fit mt-4">Get in touch</a>
+    </div>
+  </div>
+
+  <button id="cmdk-trigger" class="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-brand-card border border-brand-border hover:border-brand-accent/50 shadow-[0_8px_30px_rgba(0,0,0,0.4)] flex items-center justify-center transition-all duration-200 hover:scale-110" aria-label="Command palette">
+    <svg class="w-6 h-6 text-brand-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+  </button>
+
+  <div id="cmdk-overlay" class="fixed inset-0 z-[70] bg-brand-bg/80 backdrop-blur-xl hidden items-center justify-center" role="dialog" aria-modal="true" aria-label="Command palette">
+    <div class="card w-full max-w-lg mx-4 p-6">
+      <div class="flex items-center gap-3 mb-4">
+        <svg class="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+        <input id="cmdk-input" type="text" placeholder="Jump to..." class="w-full bg-transparent border-none outline-none text-brand-text text-lg font-medium" autocomplete="off" />
+      </div>
+      <div id="cmdk-results" class="space-y-2">
+        <a href="/projects" class="cmdk-item block px-4 py-3 rounded-xl text-brand-text-secondary hover:bg-brand-border hover:text-brand-accent transition-colors">Projects</a>
+        <a href="/writing" class="cmdk-item block px-4 py-3 rounded-xl text-brand-text-secondary hover:bg-brand-border hover:text-brand-accent transition-colors">Writing</a>
+        <a href="/talks" class="cmdk-item block px-4 py-3 rounded-xl text-brand-text-secondary hover:bg-brand-border hover:text-brand-accent transition-colors">Talks</a>
+        <a href="/about" class="cmdk-item block px-4 py-3 rounded-xl text-brand-text-secondary hover:bg-brand-border hover:text-brand-accent transition-colors">About</a>
+        <a href="https://github.com/greyentity101" class="block px-4 py-3 rounded-xl text-brand-text-secondary hover:bg-brand-border hover:text-brand-accent transition-colors">GitHub</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Theme toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    themeToggle?.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    // Mobile menu
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileBtn = document.getElementById('mobile-menu-btn');    const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+    mobileBtn?.addEventListener('click', () => {
+      mobileMenu?.classList.toggle('hidden');
+      mobileMenu?.setAttribute('aria-hidden', String(mobileMenu?.classList.contains('hidden')));
+    });
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu?.classList.add('hidden');
+        mobileMenu?.setAttribute('aria-hidden', 'true');
+      });
+    });
+    const cmdkOverlay = document.getElementById('cmdk-overlay');
+    const cmdkInput = document.getElementById('cmdk-input');
+    const cmdkTrigger = document.getElementById('cmdk-trigger');
+    cmdkTrigger?.addEventListener('click', () => {
+      cmdkOverlay?.classList.remove('hidden');
+      cmdkOverlay?.classList.add('flex');
+      (cmdkInput as HTMLInputElement)?.focus();
+    });
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        cmdkOverlay?.classList.toggle('hidden');
+        cmdkOverlay?.classList.toggle('flex');
+        if (!cmdkOverlay?.classList.contains('hidden')) (cmdkInput as HTMLInputElement)?.focus();
+      }
+      if (e.key === 'Escape') {
+        cmdkOverlay?.classList.add('hidden');
+        cmdkOverlay?.classList.remove('flex');
+      }
+    });
+    cmdkOverlay?.addEventListener('click', (e) => {
+      if (e.target === cmdkOverlay) {
+        cmdkOverlay.classList.add('hidden');
+        cmdkOverlay.classList.remove('flex');
+      }
+    });
+  </script>
+</BaseLayout>

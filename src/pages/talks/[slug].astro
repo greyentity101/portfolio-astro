@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+
+export async function getStaticPaths() {
+  const talks = await getCollection('talks');
+  return talks.map((talk) => ({
+    params: { slug: talk.slug },
+    props: { talk },
+  }));
+}
+
+const { talk } = Astro.props;
+const { Content } = await talk.render();
+---
+<MainLayout title={talk.data.title} description={talk.data.description}>
+  <div class="container max-w-3xl py-12">
+    <a href="/talks" class="inline-flex items-center gap-2 text-brand-text-secondary hover:text-brand-accent transition-colors mb-8 text-sm">
+      Back to talks
+    </a>
+    <span class="tag">{talk.data.venue}</span>
+    <h1 class="text-3xl sm:text-4xl font-bold tracking-tighter mt-4 mb-4">{talk.data.title}</h1>
+    <p class="text-brand-muted text-sm mb-8">{talk.data.date}</p>
+    <div class="prose prose-invert max-w-none">
+      <Content />
+    </div>
+  </div>
+</MainLayout>

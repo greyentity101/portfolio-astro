@@ -1,0 +1,41 @@
+---
+import type { getCollection } from 'astro:content';
+
+interface Props {
+  posts: Awaited<ReturnType<typeof getCollection<'blog'>>>;
+}
+const { posts } = Astro.props;
+---
+<section id="writing" class="section bg-brand-bg-elevated/50">
+  <div class="container">
+    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12">
+      <div>
+        <div class="flex items-center gap-2 mb-3">
+          <div class="dot-block w-2 h-2 rounded-full bg-brand-violet"></div>
+          <span class="text-brand-violet text-sm font-semibold uppercase tracking-wider">Writing</span>
+        </div>
+        <h2 class="section-title">Blog & articles</h2>
+      </div>
+      <a href="/writing" class="btn-ghost text-sm">
+        All writing
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+      </a>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      {posts.map(post => (
+        <a href={`/writing/${post.slug}`} class="card group relative overflow-hidden">
+          <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand-accent to-brand-violet opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div class="relative">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="tag">{post.data.category}</span>
+              <span class="text-brand-muted text-xs">{post.data.date}</span>
+            </div>
+            <h3 class="text-xl font-bold mb-2 group-hover:text-brand-accent transition-colors leading-tight">{post.data.title}</h3>
+            <p class="text-brand-text-secondary text-sm leading-relaxed line-clamp-2">{post.data.description}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,46 @@
+---
+import { getCollection } from 'astro:content';
+
+interface Props {
+  projects: Awaited<ReturnType<typeof getCollection<'projects'>>>;
+}
+const { projects } = Astro.props;
+---
+<section id="projects" class="section">
+  <div class="container">
+    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12">
+      <div>
+        <div class="flex items-center gap-2 mb-3">
+          <div class="dot-block w-2 h-2 rounded-full bg-brand-accent"></div>
+          <span class="text-brand-accent text-sm font-semibold uppercase tracking-wider">Projects</span>
+        </div>
+        <h2 class="section-title">Selected work</h2>
+      </div>
+      <a href="/projects" class="btn-ghost text-sm">
+        All projects
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+      </a>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {projects.map(project => (
+        <a href={`/projects/${project.slug}`} class="card group relative overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-br from-brand-accent/5 to-brand-violet/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div class="relative">
+            <div class="flex items-center justify-between mb-4">
+              <span class="tag">{project.data.status}</span>
+              <svg class="w-5 h-5 text-brand-muted group-hover:text-brand-accent transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" /></svg>
+            </div>
+            <h3 class="text-xl font-bold mb-2 group-hover:text-brand-accent transition-colors">{project.data.title}</h3>
+            <p class="text-brand-text-secondary text-sm leading-relaxed mb-4">{project.data.description}</p>
+            <div class="flex flex-wrap gap-2">
+              {project.data.tags.slice(0, 3).map(tag => (
+                <span class="text-xs px-2 py-1 rounded-md bg-brand-border/50 text-brand-muted border border-brand-border/50">{tag}</span>
+              ))}
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,20 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+const projects = await getCollection('projects');
+---
+<MainLayout title="Projects" description="Selected work by Mohit Kumar.">
+  <div class="container py-12">
+    <h1 class="section-title mb-4">Projects</h1>
+    <p class="section-subtitle mb-10">Offline-first tools for healthcare and local AI.</p>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {projects.map((p) => (
+        <a href={`/projects/${p.slug}`} class="card group">
+          <span class="tag">{p.data.status}</span>
+          <h3 class="text-xl font-bold mt-3 mb-2 group-hover:text-brand-accent transition-colors">{p.data.title}</h3>
+          <p class="text-brand-text-secondary text-sm">{p.data.description}</p>
+        </a>
+      ))}
+    </div>
+  </div>
+</MainLayout>
