@@ -1,0 +1,2 @@
+# Bypass Jekyll processing on GitHub Pages so underscore-prefixed
+# directories (e.g. _astro/) are served. Copied to dist/ on every build.
