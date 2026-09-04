@@ -9,18 +9,23 @@ interface Props {
 
 const { title, description, canonical } = Astro.props;
 
-// BASE_URL is '/portfolio-astro/' in production builds, '/' in dev.
+// BASE_URL is '/portfolio-astro' (no trailing slash) in production builds, '/' in dev.
+// Astro.url.pathname includes the base in static builds, sometimes without trailing slash.
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
-const basePath = base.replace(/^\//, '');
-const rawPath = Astro.url.pathname.replace(/^\//, '');
-const fullPath = rawPath.startsWith(basePath) ? rawPath : basePath + rawPath;
-const canonicalURL = canonical || new URL(fullPath, Astro.site).href;
+const baseNoSlash = base.replace(/\/+$/, '');
+let pathNoSlash = Astro.url.pathname.replace(/\/+$/, '');
+if (pathNoSlash === '') pathNoSlash = '/';
+if (!pathNoSlash.startsWith(baseNoSlash + '/') && pathNoSlash !== baseNoSlash) {
+  pathNoSlash = baseNoSlash + (pathNoSlash === '/' ? '' : pathNoSlash);
+}
+if (pathNoSlash === '') pathNoSlash = '/';
+const canonicalURL = canonical || new URL(pathNoSlash === '/' ? baseNoSlash + '/' : pathNoSlash + '/', Astro.site).href;
 ---
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0A0F1A" />
+    <meta name="theme-color" content="#04070D" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" />
